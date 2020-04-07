@@ -26,7 +26,10 @@ geemap
 .. image:: https://readthedocs.org/projects/geemap/badge/?version=latest
         :target: https://geemap.readthedocs.io/en/latest/?badge=latest
 
-.. image:: https://img.shields.io/twitter/follow/giswqs?style=social   
+.. image:: https://img.shields.io/badge/YouTube-GEE%20Tutorials-red   
+        :target: https://gishub.org/geemap
+
+.. image:: https://img.shields.io/twitter/follow/giswqs?style=social   	
         :target: https://twitter.com/giswqs
 
 .. image:: https://img.shields.io/badge/License-MIT-yellow.svg
@@ -41,6 +44,7 @@ A Python package for interactive mapping with Google Earth Engine, ipyleaflet, a
 * Documentation: https://geemap.readthedocs.io
 * PyPI: https://pypi.org/project/geemap/
 * 360+ GEE notebook examples: https://github.com/giswqs/earthengine-py-notebooks
+* GEE Tutorials on YouTube: https://gishub.org/geemap
 * Free software: MIT license
 
 
@@ -59,11 +63,14 @@ A Python package for interactive mapping with Google Earth Engine, ipyleaflet, a
 Features
 --------
 
-* Automatically converts Earth Engine JavaScripts to Python scripts and Jupyter Notebooks.
-* Adds Earth Engine tile layers to ipyleaflet map for interactive mapping.
-* Supports Earth Engine JavaScript API functions in Python, such as ``Map.addLayer()``, ``Map.setCenter()``, ``Map.centerObject()``, ``Map.setOptions()``.
-* Captures user input and query Earth Engine objects.
-* Plots charts based on Earth Engine data.
+* Automated conversion from Earth Engine JavaScripts to Python scripts and Jupyter notebooks.
+* Displaying Earth Engine data layers for interactive mapping.
+* Supporting Earth Engine JavaScript API-styled functions in Python, such as ``Map.addLayer()``, ``Map.setCenter()``, ``Map.centerObject()``, ``Map.setOptions()``.
+* Creating split-panel maps with Earth Engine data.
+* Retrieving Earth Engine data interactively using the Inspector Tool.
+* Interactive plotting of Earth Engine data by simply clicking on the map.
+* Converting data format between GeoJSON and Earth Engine.
+* Using drawing tools to interact with Earth Engine data.
 
 
 Installation
@@ -119,6 +126,13 @@ Note that `Google Colab <https://colab.research.google.com/>`__ currently does n
 `import geemap.eefolium <https://github.com/giswqs/geemap/blob/master/geemap/eefolium.py>`__. If you are using geemap with `binder <https://mybinder.org/>`__ or a local Jupyter notebook server,
 you can use `import geemap <https://github.com/giswqs/geemap/blob/master/geemap/geemap.py>`__, which provides more functionalities for capturing user input (e.g.,
 mouse-clicking and moving).
+
+More GEE Tutorials are available on my `YouTube channel <https://gishub.org/geemap>`__.
+
+|YouTube|
+
+.. |YouTube| image:: https://i.imgur.com/qIGmd0L.png
+   :target: https://gishub.org/geemap
 
 To create an ipyleaflet-based interactive map:
 
@@ -197,6 +211,37 @@ To add a WMS layer to the Map:
   Map.add_wms_layer(url=naip_url, layers='0', name='NAIP Imagery', format='image/png', shown=True)
 
 
+To convert a shapefile to Earth Engine object and add it to the Map:
+
+.. code:: python
+
+  ee_object = geemap.shp_to_ee(shp_file_path)
+  Map.addLayer(ee_object, {}, 'Layer name')
+
+
+To convert a GeoJSON file to Earth Engine object and add it to the Map:
+
+.. code:: python
+
+  ee_object = geemap.geojson_to_ee(geojson_file_path)
+  Map.addLayer(ee_object, {}, 'Layer name')
+
+
+To create a split Map:
+
+.. code:: python
+
+  Map.split_map(left_layer='HYBRID', right_layer='ESRI')
+
+
+To add a marker cluster to the Map:
+
+.. code:: python
+
+  Map.marker_cluster()
+  feature_collection = ee.FeatureCollection(Map.ee_markers)
+
+
 To convert all GEE JavaScripts in a folder recursively to Python scripts:
 
 .. code:: python
@@ -234,17 +279,12 @@ another repo: `A collection of 300+ Jupyter Python notebook examples for using G
 Converting GEE JavaScripts to Python scripts and Jupyter notebooks
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Launch an interactive notebook with **Google Colab**, **mybinder.org**, or **binder.pangeo.io**. Keep in mind that the conversion might not always work perfectly. Additional manual changes might still be needed. ``ui`` and ``chart`` are not supported. 
+Launch an interactive notebook with **Google Colab**. Keep in mind that the conversion might not always work perfectly. Additional manual changes might still be needed. ``ui`` and ``chart`` are not supported. 
 The source code for this automated conversion module can be found at `conversion.py`_.
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
         :target: https://colab.research.google.com/github/giswqs/geemap/blob/master/examples/notebooks/earthengine_js_to_ipynb.ipynb
 
-.. image:: https://mybinder.org/badge_logo.svg
-        :target: https://mybinder.org/v2/gh/giswqs/geemap/master?filepath=examples/notebooks/earthengine_js_to_ipynb.ipynb
-
-.. image:: https://binder.pangeo.io/badge_logo.svg
-        :target: https://binder.pangeo.io/v2/gh/giswqs/geemap/master?filepath=examples/notebooks/earthengine_js_to_ipynb.ipynb
 
 .. code:: python
 
@@ -276,16 +316,10 @@ The source code for this automated conversion module can be found at `conversion
 
 Interactive mapping using GEE Python API and geemap
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Launch an interactive notebook with **mybinder.org** or **binder.pangeo.io**. Note that **Google Colab** currently does not support ipyleaflet. Therefore, you should use ``import geemap.eefolium`` instead of ``import geemap``.
+Launch an interactive notebook with **Google Colab**. Note that **Google Colab** currently does not support ipyleaflet. Therefore, you should use ``import geemap.eefolium`` instead of ``import geemap``.
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
         :target: https://colab.research.google.com/github/giswqs/geemap/blob/master/examples/notebooks/geemap_and_folium.ipynb
-
-.. image:: https://mybinder.org/badge_logo.svg
-        :target: https://mybinder.org/v2/gh/giswqs/geemap/master?filepath=examples/notebooks/geemap_and_earthengine.ipynb
-
-.. image:: https://binder.pangeo.io/badge_logo.svg
-        :target: https://binder.pangeo.io/v2/gh/giswqs/geemap/master?filepath=examples/notebooks/geemap_and_earthengine.ipynb
 
 .. code:: python
 
